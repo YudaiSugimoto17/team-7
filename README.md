@@ -2,3 +2,4 @@
 ソフトウェア工学Ⅱの練習リポジトリ
 
 takedachie
+sugimoto yudai
