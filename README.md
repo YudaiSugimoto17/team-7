@@ -1,8 +1,9 @@
 # team-7
 ソフトウェア工学Ⅱの練習リポジトリ
 
-takedachie
+takeda chie
 sugimoto yudai
 yamamoto iori
-a
+katahira hiroto
 
+脱出ゲーム
