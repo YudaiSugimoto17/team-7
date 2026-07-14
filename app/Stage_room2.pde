@@ -182,7 +182,7 @@ class Stage_room2 extends Stage {
       if (mouseX>=600 && mouseX<=680 &&
         mouseY>=250 && mouseY<=330) {
         cleared = true;
-        message = "鍵を手に入れた！";
+        message = "非常口の鍵①を手に入れた！";
         screen=0;
       }
       break;
