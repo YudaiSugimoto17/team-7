@@ -10,6 +10,10 @@
 ## メソッド
   - Item()
 
+## メモ
+アイテム1つ分のデータを持つクラス。
+Stage内で new して Inventory.addItem() に渡す。
+
 
 ## 【Hotspot】
 
@@ -34,6 +38,10 @@
   - void drawDebug()
   - void reset()
 
+## メモ
+部屋内のクリック可能領域を表すクラス。
+contains() でクリック位置が領域内かを判定する。
+処理の分岐は Stage の mousePressed() 内で行う
 
 ## 【Inventory】
 
@@ -59,6 +67,8 @@
   - boolean handleClick()
   - void draw()
 
+## メモ
+画面下部の7スロットのアイテム欄を管理するクラス。
 
 ## 【TextBox】
 
@@ -81,5 +91,8 @@
   - boolean handleClick()
   - void draw()
 
+## メモ
+画面下部の会話ウィンドウを管理するクラス。
+isVisible が true の間は他の操作を無効化する。
 
 
