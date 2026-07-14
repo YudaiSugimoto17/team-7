@@ -8,7 +8,7 @@ class Stage_room2 extends Stage {
   Stage_room2() {
     // 本棚を押した順番
   }
-  
+
   void update() {
   }
 
@@ -16,12 +16,12 @@ class Stage_room2 extends Stage {
     background(240);
     fill(0);
     textSize(30);
-    text("図書館", 330, 50);
+    text("library", 330, 50);
     // 机
-    fill(170,120,70);
+    fill(170, 120, 70);
     rect(100, 300, 200, 100);
     // 本棚
-    fill(150,100,50);
+    fill(150, 100, 50);
     rect(450, 100, 250, 350);
     // 紙
     if (!paperRead) {
@@ -30,12 +30,17 @@ class Stage_room2 extends Stage {
     }
     // 本
     fill(255);
-    rect(470,120,60,40); // 本①
-    rect(470,180,60,40); // 本②
-    rect(470,240,60,40); // 本③
-    
+    rect(470, 120, 60, 40); // 本①
+    rect(470, 180, 60, 40); // 本②
+    rect(470, 240, 60, 40); // 本③
+
     fill(0);
     text(message, 30, 500);
+    // 鍵
+    if (shelfOpened && !cleared) {
+      fill(255, 255, 0);
+      ellipse(640, 400, 30, 30);
+    }
   }
   void mousePressed() {
     if (!paperRead) {
@@ -94,5 +99,19 @@ class Stage_room2 extends Stage {
   }
   boolean isCleared() {
     return cleared;
+  }
+  boolean clickBook1() {
+    return mouseX >= 470 && mouseX <= 530 &&
+      mouseY >= 120 && mouseY <= 160;
+  }
+
+  boolean clickBook2() {
+    return mouseX >= 470 && mouseX <= 530 &&
+      mouseY >= 180 && mouseY <= 220;
+  }
+
+  boolean clickBook3() {
+    return mouseX >= 470 && mouseX <= 530 &&
+      mouseY >= 240 && mouseY <= 280;
   }
 }
