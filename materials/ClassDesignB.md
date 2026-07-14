@@ -1,6 +1,5 @@
 # 担当B　クラス設計
 担当者：KATAHIRA Hiroto
-***
 ## 【Item】
 
 ## 属性
@@ -11,7 +10,6 @@
 ## メソッド
   - Item()
 
----
 
 ## 【Hotspot】
 
@@ -36,7 +34,6 @@
   - void drawDebug()
   - void reset()
 
----
 
 ## 【Inventory】
 
@@ -62,7 +59,6 @@
   - boolean handleClick()
   - void draw()
 
----
 
 ## 【TextBox】
 
