@@ -1,16 +1,15 @@
 # 担当A クラス設計
 
 ## Game
-
 担当者: SUGIMOTO Yudai
 
-### 属性
+## 属性
 - SceneManager sceneManager
 - StageManager stageManager
 - FlagManager flagManager
 - ModalManager modalManager
 
-### メソッド
+## メソッド
 - Game()
 - update()
 - draw()
