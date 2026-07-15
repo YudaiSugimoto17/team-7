@@ -5,7 +5,6 @@ class StageRoom2 extends Stage {
   boolean cleared = false;        // 部屋クリア
   boolean paper2Found = false;   // 2枚目の紙が落ちた
   boolean paper2Read = false;    // 2枚目の紙を読んだ
-  String message = "";
   int answerStep = 0;
   PImage bg;
   PImage keyImg;
@@ -22,10 +21,10 @@ class StageRoom2 extends Stage {
     paper2Img=loadImage("memo1.png");
     memoImg=loadImage("memo.png");
   }
-
+ 
   void update() {
   }
-
+ 
   void draw() {
     background(0);
     switch(screen) {
@@ -56,20 +55,9 @@ class StageRoom2 extends Stage {
     if (shelfOpened && !cleared) {
       image(keyImg, 870, 330, 40, 40);
     }
-    //持ち物
-    fill(180);
-    rect(0, 570, width, 150);
-    if (paperRead) {
-      image(paperImg, 50, 640, 40, 40);
-    }
-    if (paper2Read) {
-  image(memoImg, 110, 640, 40, 40);
-}
     //本
     image(booksImg, 220, 190, 100, 100);
-
-    fill(255);
-    text(message, 250, 660);
+ 
     // 2枚目の紙
     if (paper2Found && !paper2Read) {
       image(memoImg, 320, 430, 60, 60);
@@ -84,7 +72,7 @@ class StageRoom2 extends Stage {
     textSize(20);
     text("クリックで戻る", 240, 560);
   }
-
+ 
   void drawBooks() {
     drawLibrary();
     fill(230);
@@ -94,7 +82,7 @@ class StageRoom2 extends Stage {
     textSize(20);
     text("クリックで戻る", 240, 560);
   }
-
+ 
   void drawKey() {
     drawLibrary();
     fill(230);
@@ -116,7 +104,7 @@ class StageRoom2 extends Stage {
     textSize(20);
     text("クリックで戻る", 240, 560);
   }
-
+ 
   void mousePressed() {
     switch(screen) {
     case 0:
@@ -124,6 +112,7 @@ class StageRoom2 extends Stage {
         if (mouseX>=600 && mouseX<=680 &&
           mouseY>=490 && mouseY<=570) {
           paperRead = true;
+          inventory.addItem(new Item("paper", "紙", paperImg));
           screen=1;
           return;
         }
@@ -136,60 +125,66 @@ class StageRoom2 extends Stage {
         screen=2;
         return;
       }
-
+ 
       //青い本棚
       if (paper2Read && !shelfOpened &&
         mouseX>=1020 && mouseX<=1280 &&
         mouseY>=220 && mouseY<=310) {
         shelfOpened=true;
-        message="カチッ…本棚が動いた！";
+        textBox.showMessages(null, new String[]{"カチッ…本棚が動いた！"});
         screen=4;
         return;
-      }
-      //鍵
-      if (shelfOpened && !cleared &&
-        mouseX>=490 && mouseX<=790 &&
-        mouseY>=150 && mouseY<=450) {
-        cleared=true;
-        message="鍵を手に入れた！";
       }
       // 2枚目の紙
       if (paper2Found && !paper2Read) {
         if (mouseX>=320 && mouseX<=380 &&
           mouseY>=430 && mouseY<=490) {
           paper2Read = true;
+          inventory.addItem(new Item("memo2", "メモ", memoImg));
           screen = 3;
           return;
         }
       }
-
+ 
       break;
-
+ 
     case 1:
       screen=0;
       break;
-
+ 
     case 2:
       paper2Found = true;
       screen=0;
       break;
-
+ 
     case 3:
       screen=0;
       break;
-
+ 
     case 4:
       if (mouseX>=600 && mouseX<=680 &&
         mouseY>=250 && mouseY<=330) {
         cleared = true;
-        message = "非常口の鍵①を手に入れた！";
+        // 非常口の鍵を持ち物に追加（取得したことのお知らせはGame側のモーダルが担当）
+        inventory.addItem(new Item("key2", "非常口の鍵②", keyImg));
         screen=0;
       }
       break;
     }
   }
-
+ 
   boolean isCleared() {
     return cleared;
+  }
+ 
+  void onInventoryItemClicked(Item item) {
+    // 持ち物欄で拾ったアイテムをクリックすると、対応する拡大表示に戻る
+    if (item.id.equals("paper")) {
+      screen = 1;
+    } else if (item.id.equals("memo2")) {
+      screen = 3;
+    } else if (item.id.equals("key2")) {
+      screen = 4;
+    }
   }
 }
