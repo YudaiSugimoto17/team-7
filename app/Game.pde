@@ -94,7 +94,7 @@ class Game {
       if (mouseX >= 150 && mouseX <= 400 &&
         mouseY >= 250 && mouseY <= 350) {
 
-        stageManager.setStage(new StageRoom1());
+        stageManager.setStage(new StageRoom2());
         sceneManager.changeScene(SceneManager.ROOM);
         return;
       }
@@ -103,7 +103,7 @@ class Game {
       if (mouseX >= 500 && mouseX <= 750 &&
         mouseY >= 250 && mouseY <= 350) {
 
-        stageManager.setStage(new StageRoom2());
+        stageManager.setStage(new StageRoom1());
         sceneManager.changeScene(SceneManager.ROOM);
         return;
       }
@@ -129,10 +129,22 @@ class Game {
     }
 
     // ROOM
-    if (sceneManager.getCurrentScene() == SceneManager.ROOM &&
-      stageManager.getCurrentStage() != null) {
+    if (sceneManager.getCurrentScene() == SceneManager.ROOM) {
 
-      stageManager.getCurrentStage().mousePressed();
+      // 戻るボタン
+      if (mouseX >= width - 140 &&
+        mouseX <= width - 20 &&
+        mouseY >= height - 70 &&
+        mouseY <= height - 20) {
+
+        stageManager.clearStage();
+        sceneManager.changeScene(SceneManager.HUB);
+        return;
+      }
+
+      if (stageManager.getCurrentStage() != null) {
+        stageManager.getCurrentStage().mousePressed();
+      }
     }
   }
 
@@ -182,7 +194,17 @@ class Game {
     if (stageManager.getCurrentStage() != null) {
       stageManager.getCurrentStage().draw();
     }
+
+    fill(220);
+    rect(width - 140, height - 70, 120, 50);
+
+    fill(0);
+    textAlign(CENTER, CENTER);
+    textSize(20);
+
+    text("戻る", width - 80, height - 45);
   }
+
 
   void drawAllClear() {
 
