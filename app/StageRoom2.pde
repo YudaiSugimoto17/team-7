@@ -1,4 +1,4 @@
-class Stage_room2 extends Stage {
+class StageRoom2 extends Stage {
   boolean paperRead = false;      // 紙を読んだ
   boolean booksChecked=false;
   boolean shelfOpened = false;    // 本棚が開いた
@@ -14,7 +14,7 @@ class Stage_room2 extends Stage {
   PImage paper2Img;
   PImage memoImg;
   int screen = 0;
-  Stage_room2() {
+  StageRoom2() {
     bg=loadImage("library.jpeg");
     paperImg = loadImage("paper.png");
     keyImg = loadImage("key.png");

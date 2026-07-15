@@ -1,4 +1,4 @@
-class Stage_room1 extends Stage {
+class StageRoom1 extends Stage {
   boolean memoRead = false;       // メモを読んだ
   boolean cabinetOpened = false;  // 薬品棚を調べた
   boolean drawerOpened = false;   // 引き出しが開いた
@@ -6,7 +6,7 @@ class Stage_room1 extends Stage {
   String message = "";
   int answerStep = 0;
 
-  Stage_room1() {
+  StageRoom1() {
   }
 
   void update() {
