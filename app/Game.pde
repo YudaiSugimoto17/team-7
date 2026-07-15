@@ -14,6 +14,11 @@ class Game {
 
   void update() {
 
+    if (sceneManager.getCurrentScene() == SceneManager.ROOM &&
+        stageManager.getCurrentStage() != null) {
+
+      stageManager.getCurrentStage().update();
+    }
   }
 
   void draw() {
@@ -40,34 +45,53 @@ class Game {
 
   void mousePressed() {
 
-  if (sceneManager.getCurrentScene() == SceneManager.TITLE) {
-    sceneManager.changeScene(SceneManager.HUB);
+    // タイトル → HUB
+    if (sceneManager.getCurrentScene() == SceneManager.TITLE) {
+      sceneManager.changeScene(SceneManager.HUB);
+      return;
+    }
+
+    // HUB
+    if (sceneManager.getCurrentScene() == SceneManager.HUB) {
+
+      // 図書室
+      if (mouseX >= 150 && mouseX <= 400 &&
+          mouseY >= 250 && mouseY <= 350) {
+
+        stageManager.setStage(new Stage_room1());
+        sceneManager.changeScene(SceneManager.ROOM);
+        return;
+      }
+
+      // 理科室
+      if (mouseX >= 500 && mouseX <= 750 &&
+          mouseY >= 250 && mouseY <= 350) {
+
+        stageManager.setStage(new Stage_room2());
+        sceneManager.changeScene(SceneManager.ROOM);
+        return;
+      }
+
+      // 非常口
+      if (mouseX >= 850 && mouseX <= 1100 &&
+          mouseY >= 250 && mouseY <= 350) {
+
+        if (flagManager.canEscape()) {
+          sceneManager.changeScene(SceneManager.ALL_CLEAR);
+        } else {
+          modalManager.show("鍵が足りない");
+        }
+        return;
+      }
+    }
+
+  // ROOM
+    if (sceneManager.getCurrentScene() == SceneManager.ROOM &&
+        stageManager.getCurrentStage() != null) {
+
+      stageManager.getCurrentStage().mousePressed();
+    }
   }
-
-  if (sceneManager.getCurrentScene() == SceneManager.HUB) {
-
-    // 図書室
-    if (mouseX >= 150 && mouseX <= 400 &&
-      mouseY >= 250 && mouseY <= 350) {
-
-      println("図書室");
-    }
-
-    // 理科室
-    if (mouseX >= 500 && mouseX <= 750 &&
-      mouseY >= 250 && mouseY <= 350) {
-
-      println("理科室");
-    }
-
-    // 非常口
-    if (mouseX >= 850 && mouseX <= 1100 &&
-      mouseY >= 250 && mouseY <= 350) {
-
-      println("非常口");
-    }
-  }
-}
 
   void drawTitle() {
 
@@ -108,12 +132,9 @@ class Game {
 
   void drawRoom() {
 
-    background(120);
-
-    fill(255);
-    textSize(40);
-
-    text("ROOM", width / 2, height / 2);
+    if (stageManager.getCurrentStage() != null) {
+      stageManager.getCurrentStage().draw();
+    }
   }
 
   void drawAllClear() {
