@@ -59,29 +59,17 @@ class Stage_room2 extends Stage {
     //持ち物
     fill(180);
     rect(0, 570, width, 150);
-    fill(0);
-    textSize(20);
-    text("持ち物", 20, 590);
-    fill(255);
-    rect(100, 590, 120, 120);
-    rect(240, 590, 120, 120);
-    rect(380, 590, 120, 120);
-    rect(520, 590, 120, 120);
     if (paperRead) {
-      image(paperImg, 250, 600, 100, 100);
+      image(paperImg, 50, 640, 40, 40);
     }
     if (paper2Read) {
-      image(memoImg, 390, 600, 100, 100);
-    }
-    if (cleared) {
-      image(keyImg, 530, 600, 100, 100);
-    }
-
+  image(memoImg, 110, 640, 40, 40);
+}
     //本
     image(booksImg, 220, 190, 100, 100);
-    fill(0);
-    textSize(40);
-    text(message, 650, 660);
+
+    fill(255);
+    text(message, 250, 660);
     // 2枚目の紙
     if (paper2Found && !paper2Read) {
       image(memoImg, 320, 430, 60, 60);
@@ -117,11 +105,7 @@ class Stage_room2 extends Stage {
     text("青い本棚が動いた！", 240, 130);
     text("奥から小さな鍵を見つけた。", 240, 180);
     textSize(50);
-    if (!cleared) {
-      text("鍵を入手する", 500, 520);
-    } else {
-      text("鍵2", 500, 520);
-    }
+    text("鍵を入手する", 500, 520);
   }
   void drawPaper2() {
     drawLibrary();
@@ -162,7 +146,13 @@ class Stage_room2 extends Stage {
         screen=4;
         return;
       }
-
+      //鍵
+      if (shelfOpened && !cleared &&
+        mouseX>=490 && mouseX<=790 &&
+        mouseY>=150 && mouseY<=450) {
+        cleared=true;
+        message="鍵を手に入れた！";
+      }
       // 2枚目の紙
       if (paper2Found && !paper2Read) {
         if (mouseX>=320 && mouseX<=380 &&
@@ -172,27 +162,7 @@ class Stage_room2 extends Stage {
           return;
         }
       }
-      // 持ち物：紙
-      if (paperRead &&
-        mouseX>=100 && mouseX<=220 &&
-        mouseY>=590 && mouseY<=710) {
-        screen = 1;
-        return;
-      }
-      // 持ち物：メモ
-      if (paper2Read &&
-        mouseX>=240 && mouseX<=360 &&
-        mouseY>=590 && mouseY<=710) {
-        screen = 3;
-        return;
-      }
-      // 持ち物：鍵
-      if (cleared &&
-        mouseX>=380 && mouseX<=500 &&
-        mouseY>=590 && mouseY<=710) {
-        screen = 4;
-        return;
-      }
+
       break;
 
     case 1:
@@ -209,12 +179,10 @@ class Stage_room2 extends Stage {
       break;
 
     case 4:
-      //鍵
-      if (shelfOpened && !cleared &&
-        mouseX>=490 && mouseX<=790 &&
-        mouseY>=150 && mouseY<=450) {
-        cleared=true;
-        message="鍵を手に入れた！";
+      if (mouseX>=600 && mouseX<=680 &&
+        mouseY>=250 && mouseY<=330) {
+        cleared = true;
+        message = "非常口の鍵①を手に入れた！";
         screen=0;
       }
       break;
