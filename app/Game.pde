@@ -20,7 +20,7 @@ class Game {
       stageManager.getCurrentStage().update();
 
       // 図書室クリア
-      if (stageManager.getCurrentStage() instanceof Stage_room1 &&
+      if (stageManager.getCurrentStage() instanceof StageRoom1 &&
         stageManager.getCurrentStage().isCleared() &&
         !flagManager.hasExitKey1) {
 
@@ -34,7 +34,7 @@ class Game {
       }
 
       // 理科室クリア
-      if (stageManager.getCurrentStage() instanceof Stage_room2 &&
+      if (stageManager.getCurrentStage() instanceof StageRoom2 &&
         stageManager.getCurrentStage().isCleared() &&
         !flagManager.hasExitKey2) {
 
@@ -94,7 +94,7 @@ class Game {
       if (mouseX >= 150 && mouseX <= 400 &&
         mouseY >= 250 && mouseY <= 350) {
 
-        stageManager.setStage(new Stage_room1());
+        stageManager.setStage(new StageRoom1());
         sceneManager.changeScene(SceneManager.ROOM);
         return;
       }
@@ -103,7 +103,7 @@ class Game {
       if (mouseX >= 500 && mouseX <= 750 &&
         mouseY >= 250 && mouseY <= 350) {
 
-        stageManager.setStage(new Stage_room2());
+        stageManager.setStage(new StageRoom2());
         sceneManager.changeScene(SceneManager.ROOM);
         return;
       }
