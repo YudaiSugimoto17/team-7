@@ -1,7 +1,7 @@
 /**
  * TextBox.pde — 会話ウィンドウ（画面下部のナレーション表示）
  * 【担当】B（KATAHIRA Hiroto）
- * 
+ *
  * 【役割】画面下部に表示される会話ウィンドウ。
  *         ナレーション、キャラのセリフ、ヒントを表示する。
  * 【Aとの連携】Game.draw() で textBox.draw() が呼ばれる。
@@ -65,7 +65,10 @@ class TextBox {
 
   /** 会話終了フラグを確認して消費する。 */
   boolean consumeComplete() {
-    if (onCompleteFlag) { onCompleteFlag = false; return true; }
+    if (onCompleteFlag) {
+      onCompleteFlag = false;
+      return true;
+    }
     return false;
   }
 
@@ -82,7 +85,7 @@ class TextBox {
 
   void draw() {
     if (!isVisible || queuedMessages == null) return;
-
+    pushStyle();
     int bx = boxMarginX;
     int by = height - boxBottomMargin - boxHeight;
     int bw = width - boxMarginX * 2;
@@ -121,5 +124,6 @@ class TextBox {
     fill(240, 235, 225);
     noStroke();
     triangle(triX - 6, triY - 5, triX + 6, triY - 5, triX, triY + 5);
+    popStyle();
   }
 }

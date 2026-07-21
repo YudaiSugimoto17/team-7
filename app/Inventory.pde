@@ -1,7 +1,7 @@
 /**
  * Inventory.pde — 持ち物欄（画面下部の7スロット）
  * 【担当】B（KATAHIRA Hiroto）
- * 
+ *
  * 【役割】画面下部の7つのアイテムスロットを管理する。
  * 【Aとの連携】Game.draw() 内で inventory.draw() が呼ばれる。
  */
@@ -15,12 +15,12 @@ class Inventory {
   int slotPadding;
 
   Inventory() {
-    this.maxSlots = 7;
+    this.maxSlots = 5;
     this.items = new Item[maxSlots];
     this.selectedIndex = -1;
-    this.barHeight = 80;
-    this.slotSize = 60;
-    this.slotPadding = 10;
+    this.barHeight = 150;
+    this.slotSize = 120;
+    this.slotPadding = 20;
   }
 
   // ----- アイテム操作 -----
@@ -51,11 +51,11 @@ class Inventory {
     }
     return false;
   }
-
+  
+  //？
   Item getSelectedItem() {
     if (selectedIndex >= 0 && selectedIndex < maxSlots) {
-      return items[selectedIndex];
-    }
+  return items[selectedIndex];}
     return null;
   }
 
@@ -96,7 +96,10 @@ class Inventory {
   boolean handleClick(int mx, int my) {
     if (!isInBar(mx, my)) return false;
     int slot = getSlotAt(mx, my);
-    if (slot >= 0) { selectSlot(slot); return true; }
+    if (slot >= 0) {
+      selectSlot(slot);
+      return true;
+    }
     return false;
   }
 
@@ -106,35 +109,43 @@ class Inventory {
     int bY = height - barHeight;
 
     // バー背景
+    fill(180);
     noStroke();
-    fill(40, 40, 45, 230);
     rect(0, bY, width, barHeight);
-    stroke(200, 130, 200);
-    strokeWeight(2);
-    line(0, bY, width, bY);
+    fill(0);
+    textSize(20);
+    textAlign(LEFT, TOP);
+    text("持ち物", 20, bY+20);
+    //アイテム枠
 
-    // スロット
-    int totalWidth = maxSlots * slotSize + (maxSlots - 1) * slotPadding;
-    int startX = (width - totalWidth) / 2;
-    for (int i = 0; i < maxSlots; i++) {
-      int sx = startX + i * (slotSize + slotPadding);
-      int sy = bY + (barHeight - slotSize) / 2;
+  // スロット
+int startX=100;
+  for (int i = 0; i < maxSlots; i++) {
+    int sx = startX + i * (slotSize + slotPadding);
+    int sy = bY + (barHeight - slotSize) / 2;
 
-      if (i == selectedIndex) {
-        stroke(232, 161, 58); strokeWeight(3); fill(60, 55, 45, 180);
+    if (i == selectedIndex) {
+      stroke(232, 161, 58);
+      strokeWeight(3);
+      fill(60, 55, 45, 180);
+    } else {
+      stroke(150, 150, 150, 120);
+      strokeWeight(1);
+      fill(50, 50, 55, 150);
+    }
+    rect(sx, sy, slotSize, slotSize, 8);
+
+    if (items[i] != null) {
+      if (items[i].icon != null) {
+        imageMode(CORNER);
+        image(items[i].icon, sx + 10, sy + 10, slotSize - 20, slotSize - 20);
       } else {
-        stroke(150, 150, 150, 120); strokeWeight(1); fill(50, 50, 55, 150);
-      }
-      rect(sx, sy, slotSize, slotSize, 8);
-
-      if (items[i] != null) {
-        if (items[i].icon != null) {
-          image(items[i].icon, sx + 4, sy + 4, slotSize - 8, slotSize - 8);
-        } else {
-          fill(200); textAlign(CENTER, CENTER); textSize(11);
-          text(items[i].name, sx + slotSize / 2, sy + slotSize / 2);
-        }
+        fill(50, 50, 55, 150);
+        textAlign(CENTER, CENTER);
+        textSize(11);
+        text(items[i].name, sx + slotSize / 2, sy + slotSize / 2);
       }
     }
   }
+}
 }

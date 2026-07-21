@@ -14,7 +14,12 @@ class StageRoom2 extends Stage {
   PImage paper2Img;
   PImage memoImg;
   int screen = 0;
-  StageRoom2() {
+  Inventory inventory;
+  TextBox textBox;
+  StageRoom2(Inventory inventory, TextBox textBox) {
+    this.inventory = inventory;
+    this.textBox = textBox;
+    println(inventory);
     bg=loadImage("library.jpeg");
     paperImg = loadImage("paper.png");
     keyImg = loadImage("key.png");
@@ -22,12 +27,11 @@ class StageRoom2 extends Stage {
     paper2Img=loadImage("memo1.png");
     memoImg=loadImage("memo.png");
   }
- 
+
   void update() {
   }
- 
+
   void draw() {
-    background(0);
     switch(screen) {
     case 0:
       drawLibrary();
@@ -52,38 +56,15 @@ class StageRoom2 extends Stage {
     if (!paperRead) {
       image(paperImg, 600, 490, 80, 80);
     }
-    //鍵
-    if (shelfOpened && !cleared) {
-      image(keyImg, 870, 330, 40, 40);
-    }
-    //持ち物
-    fill(180);
-    rect(0, 570, width, 150);
-    fill(0);
-    textSize(20);
-    text("持ち物", 20, 590);
-    fill(255);
-    rect(100, 590, 120, 120);
-    rect(240, 590, 120, 120);
-    rect(380, 590, 120, 120);
-    rect(520, 590, 120, 120);
-    if (paperRead) {
-      image(paperImg, 250, 600, 100, 100);
-    }
-    if (paper2Read) {
-      image(memoImg, 390, 600, 100, 100);
-    }
-    if (cleared) {
-      image(keyImg, 530, 600, 100, 100);
-    }
     //本
     image(booksImg, 220, 190, 100, 100);
-    fill(0);
-    textSize(40);
-    text(message, 650, 660);
     // 2枚目の紙
     if (paper2Found && !paper2Read) {
       image(memoImg, 320, 430, 60, 60);
+    }
+    //鍵
+    if (shelfOpened && !cleared) {
+      image(keyImg, 870, 330, 40, 40);
     }
   }
   void drawPaper() {
@@ -93,31 +74,31 @@ class StageRoom2 extends Stage {
     image(paperImg, 455, 160, 370, 400);
     fill(0);
     textSize(20);
-    text("クリックで戻る", 240, 560);
+    text("クリックで戻る",280, 560);
   }
- 
-  void drawBooks() {
+
+  void drawBooks() {  //本の拡大
     drawLibrary();
     fill(230);
     rect(200, 80, 880, 500, 20);
     image(booksImg, 390, 100, 500, 500);
     fill(0);
     textSize(20);
-    text("クリックで戻る", 240, 560);
+    text("クリックで戻る", 280, 560);
   }
- 
+
   void drawKey() {
     drawLibrary();
     fill(230);
     rect(200, 80, 880, 500, 20);
     image(keyImg, 490, 150, 300, 300);
-    fill(0);
+    fill(0);textAlign(CENTER, TOP);
     textSize(30);
-    text("青い本棚が動いた！", 240, 130);
-    text("奥から小さな鍵を見つけた。", 240, 180);
+    text("青い本棚が動いた！", 450, 130);
+    text("奥から小さな鍵を見つけた。", 450, 180);
     textSize(50);
     if (!cleared) {
-      text("鍵を入手する", 500, 520);
+      text("鍵を入手する", 640, 520);
     } else {
       text("鍵2", 500, 520);
     }
@@ -129,16 +110,20 @@ class StageRoom2 extends Stage {
     image(paper2Img, 377, 135, 525, 450);
     fill(0);
     textSize(20);
-    text("クリックで戻る", 240, 560);
+    text("クリックで戻る", 280, 560);
   }
- 
+
   void mousePressed() {
     switch(screen) {
-    case 0:
+    case 0:  //紙
       if (!paperRead) {
         if (mouseX>=600 && mouseX<=680 &&
           mouseY>=490 && mouseY<=570) {
           paperRead = true;
+          inventory.addItem(
+            new Item("paper", "紙", paperImg)
+            );
+          textBox.showMessages(null, new String[]{"紙を手に入れた"});
           screen=1;
           return;
         }
@@ -151,74 +136,59 @@ class StageRoom2 extends Stage {
         screen=2;
         return;
       }
- 
-      //青い本棚
-      if (paper2Read && !shelfOpened &&
-        mouseX>=1020 && mouseX<=1280 &&
-        mouseY>=220 && mouseY<=310) {
-        shelfOpened=true;
-        message="カチッ…本棚が動いた！";
-        screen=4;
-        return;
-      }
       // 2枚目の紙
       if (paper2Found && !paper2Read) {
         if (mouseX>=320 && mouseX<=380 &&
           mouseY>=430 && mouseY<=490) {
           paper2Read = true;
+          inventory.addItem(
+            new Item("memo", "メモ", memoImg)
+            );
+          textBox.showMessages(null, new String[]{"メモを手に入れた"});
           screen = 3;
           return;
         }
       }
-      // 持ち物：紙（アイコンは2枠目 x:240-360 に表示される）
-      if (paperRead &&
-        mouseX>=240 && mouseX<=360 &&
-        mouseY>=590 && mouseY<=710) {
-        screen = 1;
-        return;
-      }
-      // 持ち物：メモ（アイコンは3枠目 x:380-500 に表示される）
-      if (paper2Read &&
-        mouseX>=380 && mouseX<=500 &&
-        mouseY>=590 && mouseY<=710) {
-        screen = 3;
-        return;
-      }
-      // 持ち物：鍵（アイコンは4枠目 x:520-640 に表示される）
-      if (cleared &&
-        mouseX>=520 && mouseX<=640 &&
-        mouseY>=590 && mouseY<=710) {
-        screen = 4;
+      //青い本棚
+      if (paper2Read && !shelfOpened &&
+        mouseX>=1020 && mouseX<=1280 &&
+        mouseY>=220 && mouseY<=310) {
+        shelfOpened=true;
+        textBox.showMessages(null, new String[]{"カチッ…本棚が動いた！"});
+        screen=4;
         return;
       }
       break;
- 
+
     case 1:
       screen=0;
       break;
- 
+
     case 2:
       paper2Found = true;
       screen=0;
       break;
- 
+
     case 3:
       screen=0;
       break;
- 
+
     case 4:
       //鍵
       if (shelfOpened && !cleared &&
         mouseX>=490 && mouseX<=790 &&
         mouseY>=150 && mouseY<=450) {
         cleared=true;
-        message="鍵を手に入れた！";
+        inventory.addItem(
+          new Item("key1", "鍵2", keyImg)
+          );
+        textBox.showMessages(null, new String[]{"鍵を手に入れた！"});
         screen=0;
       }
       break;
     }
   }
- 
+
   boolean isCleared() {
     return cleared;
   }

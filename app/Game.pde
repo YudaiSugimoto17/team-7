@@ -4,12 +4,16 @@ class Game {
   StageManager stageManager;
   FlagManager flagManager;
   ModalManager modalManager;
+  Inventory inventory;
+  TextBox textBox;
 
   Game() {
     sceneManager = new SceneManager();
     stageManager = new StageManager();
     flagManager = new FlagManager();
     modalManager = new ModalManager();
+    inventory=new Inventory();
+    textBox=new TextBox();
   }
 
   void update() {
@@ -71,10 +75,13 @@ class Game {
     }
 
     modalManager.draw();
+    textBox.draw();
   }
 
   void mousePressed() {
-
+    if (textBox.handleClick(mouseX, mouseY)) {
+      return;
+    }
     // モーダルが表示中なら閉じる
     if (modalManager.visible) {
       modalManager.hide();
@@ -94,7 +101,8 @@ class Game {
       if (mouseX >= 150 && mouseX <= 400 &&
         mouseY >= 250 && mouseY <= 350) {
 
-        stageManager.setStage(new StageRoom2());
+
+        stageManager.setStage(new StageRoom2(inventory,textBox));
         sceneManager.changeScene(SceneManager.ROOM);
         return;
       }
@@ -116,13 +124,12 @@ class Game {
 
           sceneManager.changeScene(
             SceneManager.ALL_CLEAR
-          );
-
+            );
         } else {
 
           modalManager.show(
             "非常口を開けるには鍵が2つ必要だ"
-          );
+            );
         }
         return;
       }
@@ -141,7 +148,9 @@ class Game {
         sceneManager.changeScene(SceneManager.HUB);
         return;
       }
-
+      if (inventory.handleClick(mouseX, mouseY)) {
+        return;
+      }
       if (stageManager.getCurrentStage() != null) {
         stageManager.getCurrentStage().mousePressed();
       }
@@ -194,7 +203,7 @@ class Game {
     if (stageManager.getCurrentStage() != null) {
       stageManager.getCurrentStage().draw();
     }
-
+    inventory.draw();
     fill(220);
     rect(width - 140, height - 70, 120, 50);
 
