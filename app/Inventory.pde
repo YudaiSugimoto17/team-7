@@ -51,8 +51,7 @@ class Inventory {
     }
     return false;
   }
-  
-  //？
+
   Item getSelectedItem() {
     if (selectedIndex >= 0 && selectedIndex < maxSlots) {
   return items[selectedIndex];}
@@ -68,6 +67,17 @@ class Inventory {
     selectedIndex = -1;
   }
 
+  // スロットの左端X座標を計算する共通メソッド。
+  // 以前は getSlotAt() では中央揃えで計算した値、
+  // draw() では決め打ちの 100 を使っていて、
+  // 見た目のスロット位置とクリック判定の位置がズレていた
+  // （アイコンをクリックしても反応しない不具合の原因）。
+  // 両方からこのメソッドを呼ぶようにして、ズレが起きないようにした。
+  int slotsStartX() {
+    int totalWidth = maxSlots * slotSize + (maxSlots - 1) * slotPadding;
+    return (width - totalWidth) / 2;
+  }
+
   // ----- クリック処理 -----
 
   void selectSlot(int index) {
@@ -79,8 +89,7 @@ class Inventory {
   int getSlotAt(int mx, int my) {
     int bY = height - barHeight;
     if (my < bY || my > height) return -1;
-    int totalWidth = maxSlots * slotSize + (maxSlots - 1) * slotPadding;
-    int startX = (width - totalWidth) / 2;
+    int startX = slotsStartX();
     for (int i = 0; i < maxSlots; i++) {
       int sx = startX + i * (slotSize + slotPadding);
       int sy = bY + (barHeight - slotSize) / 2;
@@ -119,7 +128,7 @@ class Inventory {
     //アイテム枠
 
   // スロット
-int startX=100;
+  int startX = slotsStartX();
   for (int i = 0; i < maxSlots; i++) {
     int sx = startX + i * (slotSize + slotPadding);
     int sy = bY + (barHeight - slotSize) / 2;
