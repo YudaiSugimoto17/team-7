@@ -87,7 +87,7 @@ class StageRoom2 extends Stage {
     image(paperImg, 455, 150, 370, 370);
     fill(0);
     textSize(20);
-    text("クリックで戻る", 280, 540);
+    text("クリックで戻る", 280, 500);
   }
 
   void drawBooks() {
@@ -96,7 +96,7 @@ class StageRoom2 extends Stage {
     image(booksImg, 415, 95, 450, 450);
     fill(0);
     textSize(20);
-    text("クリックで戻る", 280, 540);
+    text("クリックで戻る", 280, 500);
   }
 
   void drawKey() {
@@ -179,7 +179,7 @@ class StageRoom2 extends Stage {
       if (!cleared) {
         cleared = true;
         inventory.addItem(
-          new Item("key1", "鍵2", keyImg)
+          new Item("key2", "鍵2", keyImg)
           );
         textBox.showMessages(null, new String[]{"鍵を手に入れた！"});
       }
@@ -199,7 +199,7 @@ class StageRoom2 extends Stage {
       screen = 1;
     } else if (item.id.equals("memo")) {
       screen = 3;
-    } else if (item.id.equals("key1")) {
+    } else if (item.id.equals("key2")) {
       screen = 4;
     }
   }
