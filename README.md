@@ -60,3 +60,41 @@ katahira hiroto
 非常口を調べる
 
 条件を満たすと脱出成功画面が表示される。
+
+6. 動作環境
+Proccesing 4.x
+
+7. 起動方法
+Proccesing IDE で app フォルダ内の app.pde を開く
+実行ボタンをクリックする
+
+
+8. ファイル構成
+app/
+    app.pde
+    Game.pde
+    SceneManager.pde
+    StageManager.pde
+    FlagManager.pde
+    ModalManager.pde
+    Stage.pde
+    Inventory.pde
+    TextBox.pde
+    Item.pde
+    Hotspot.pde
+    StageRoom1.pde
+    StageRoom2.pde
+    data/
+        science room.jpg
+        ビーカー青.png, ビーカー赤.png, ビーカー黄色.png
+        key.png
+        library.jpeg
+        paper.png, books.png, memo.png, memo1.png
+        hallway.jpeg
+        MS-Gothic-48.vlw
+
+
+9. 仕様素材について
+画像・フォント等の素材はフリー素材を使用している
+
+
