@@ -69,8 +69,8 @@ Proccesing IDE で app フォルダ内の app.pde を開く
 実行ボタンをクリックする
 
 
-8. ファイル構成
-app/
+8. ファイル構成  
+app/  
     app.pde  
     Game.pde  
     SceneManager.pde  
